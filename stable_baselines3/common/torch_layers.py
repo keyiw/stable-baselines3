@@ -4,6 +4,7 @@ import gymnasium as gym
 import torch as th
 from gymnasium import spaces
 from torch import nn
+import sys
 
 from stable_baselines3.common.preprocessing import get_flattened_obs_dim, is_image_space
 from stable_baselines3.common.type_aliases import TensorDict

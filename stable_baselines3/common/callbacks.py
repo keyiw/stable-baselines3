@@ -26,20 +26,19 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecEnv, sync_envs_norm
 if TYPE_CHECKING:
     from stable_baselines3.common import base_class
 
-
 class BaseCallback(ABC):
     """
     Base class for callback.
 
-    :param verbose: Verbosity level: 0 for no output, 1 for info messages, 2 for debug messages
+    :param verbose:
     """
-
-    # The RL model
-    # Type hint as string to avoid circular import
-    model: "base_class.BaseAlgorithm"
 
     def __init__(self, verbose: int = 0):
         super().__init__()
+        # The RL model
+        self.model = None  # type: Optional[base_class.BaseAlgorithm]
+        # An alias for self.model.get_env(), the environment used for training
+        self.training_env = None  # type: Union[gym.Env, VecEnv, None]
         # Number of time the callback was called
         self.n_calls = 0  # type: int
         # n_envs * n times env.step() was called
@@ -47,21 +46,10 @@ class BaseCallback(ABC):
         self.verbose = verbose
         self.locals: Dict[str, Any] = {}
         self.globals: Dict[str, Any] = {}
+        self.logger = None
         # Sometimes, for event callback, it is useful
         # to have access to the parent object
         self.parent = None  # type: Optional[BaseCallback]
-
-    @property
-    def training_env(self) -> VecEnv:
-        training_env = self.model.get_env()
-        assert (
-            training_env is not None
-        ), "`model.get_env()` returned None, you must initialize the model with an environment to use callbacks"
-        return training_env
-
-    @property
-    def logger(self) -> Logger:
-        return self.model.logger
 
     # Type hint as string to avoid circular import
     def init_callback(self, model: "base_class.BaseAlgorithm") -> None:
@@ -70,6 +58,8 @@ class BaseCallback(ABC):
         RL model and the training environment for convenience.
         """
         self.model = model
+        self.training_env = model.get_env()
+        self.logger = model.logger
         self._init_callback()
 
     def _init_callback(self) -> None:
@@ -79,8 +69,6 @@ class BaseCallback(ABC):
         # Those are reference and will be updated automatically
         self.locals = locals_
         self.globals = globals_
-        # Update num_timesteps in case training was done before
-        self.num_timesteps = self.model.num_timesteps
         self._on_training_start()
 
     def _on_training_start(self) -> None:
@@ -109,6 +97,7 @@ class BaseCallback(ABC):
         :return: If the callback returns False, training is aborted early.
         """
         self.n_calls += 1
+        # timesteps start at zero
         self.num_timesteps = self.model.num_timesteps
 
         return self._on_step()
@@ -141,6 +130,121 @@ class BaseCallback(ABC):
         :param locals_: the local variables during rollout collection
         """
         pass
+    
+# class BaseCallback(ABC):
+#     """
+#     Base class for callback.
+
+#     :param verbose: Verbosity level: 0 for no output, 1 for info messages, 2 for debug messages
+#     """
+
+#     # The RL model
+#     # Type hint as string to avoid circular import
+#     # model: "base_class.BaseAlgorithm"
+
+#     def __init__(self, verbose: int = 0):
+#         super().__init__()
+#         # Number of time the callback was called
+#         self.n_calls = 0  # type: int
+#         # n_envs * n times env.step() was called
+#         self.num_timesteps = 0  # type: int
+#         self.verbose = verbose
+#         self.locals: Dict[str, Any] = {}
+#         self.globals: Dict[str, Any] = {}
+#         # Sometimes, for event callback, it is useful
+#         # to have access to the parent object
+#         self.parent = None  # type: Optional[BaseCallback]
+
+#     @property
+#     def training_env(self) -> VecEnv:
+#         training_env = self.model.get_env()
+#         assert (
+#             training_env is not None
+#         ), "`model.get_env()` returned None, you must initialize the model with an environment to use callbacks"
+#         return training_env
+
+#     @property
+#     def logger(self) -> Logger:
+#         return self.model.logger
+
+#     # Type hint as string to avoid circular import
+#     def init_callback(self, model: "base_class.BaseAlgorithm") -> None:
+#         """
+#         Initialize the callback by saving references to the
+#         RL model and the training environment for convenience.
+#         """
+#         self.model = model
+#         self._init_callback()
+
+#     def _init_callback(self) -> None:
+#         pass
+
+#     def on_training_start(self, locals_: Dict[str, Any], globals_: Dict[str, Any]) -> None:
+#         # Those are reference and will be updated automatically
+#         self.locals = locals_
+#         self.globals = globals_
+#         # Update num_timesteps in case training was done before
+#         self.num_timesteps = self.model.num_timesteps
+#         self._on_training_start()
+
+#     def _on_training_start(self) -> None:
+#         pass
+
+#     def on_rollout_start(self) -> None:
+#         self._on_rollout_start()
+
+#     def _on_rollout_start(self) -> None:
+#         pass
+
+#     @abstractmethod
+#     def _on_step(self) -> bool:
+#         """
+#         :return: If the callback returns False, training is aborted early.
+#         """
+#         return True
+
+#     def on_step(self) -> bool:
+#         """
+#         This method will be called by the model after each call to ``env.step()``.
+
+#         For child callback (of an ``EventCallback``), this will be called
+#         when the event is triggered.
+
+#         :return: If the callback returns False, training is aborted early.
+#         """
+#         self.n_calls += 1
+#         self.num_timesteps = self.model.num_timesteps
+
+#         return self._on_step()
+
+#     def on_training_end(self) -> None:
+#         self._on_training_end()
+
+#     def _on_training_end(self) -> None:
+#         pass
+
+#     def on_rollout_end(self) -> None:
+#         self._on_rollout_end()
+
+#     def _on_rollout_end(self) -> None:
+#         pass
+
+#     def update_locals(self, locals_: Dict[str, Any]) -> None:
+#         """
+#         Update the references to the local variables.
+
+#         :param locals_: the local variables during rollout collection
+#         """
+#         self.locals.update(locals_)
+#         self.update_child_locals(locals_)
+
+#     def update_child_locals(self, locals_: Dict[str, Any]) -> None:
+#         """
+#         Update the references to the local variables on sub callbacks.
+
+#         :param locals_: the local variables during rollout collection
+#         """
+#         pass
 
 
 class EventCallback(BaseCallback):

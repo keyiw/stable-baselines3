@@ -1,0 +1,2 @@
+Box(-inf, inf, (117,), float32) Box(-1.0, 1.0, (32,), float32)
+Using cuda device

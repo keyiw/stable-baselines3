@@ -1,0 +1,14 @@
+Box(-inf, inf, (117,), float32) Box(-1.0, 1.0, (32,), float32)
+Using cuda device
+Traceback (most recent call last):
+  File "main/train_imitate_dexmv.py", line 139, in <module>
+    model.learn(
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/ppo/ppo.py", line 332, in learn
+    return super().learn(
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/common/on_policy_algorithm.py", line 300, in learn
+    continue_training = self.collect_rollouts(self.env, callback, self.rollout_buffer, n_rollout_steps=self.n_steps)
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/common/on_policy_algorithm.py", line 224, in collect_rollouts
+    rollout_buffer.add(
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/common/buffers.py", line 472, in add
+    self.rewards[self.pos] = np.array(reward)
+ValueError: could not broadcast input array from shape (10,1) into shape (10,)

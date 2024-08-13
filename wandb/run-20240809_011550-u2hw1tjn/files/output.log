@@ -1,0 +1,33 @@
+Box(-inf, inf, (116,), float32) Box(-1.0, 1.0, (32,), float32)
+Using cuda device
+Backend TkAgg is interactive backend. Turning interactive mode on.
+Traceback (most recent call last):
+  File "/home/keyi/anaconda3/envs/artigrasp/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/keyi/anaconda3/envs/artigrasp/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/keyi/.vscode/extensions/ms-python.debugpy-2024.10.0-linux-x64/bundled/libs/debugpy/adapter/../../debugpy/launcher/../../debugpy/__main__.py", line 39, in <module>
+    cli.main()
+  File "/home/keyi/.vscode/extensions/ms-python.debugpy-2024.10.0-linux-x64/bundled/libs/debugpy/adapter/../../debugpy/launcher/../../debugpy/../debugpy/server/cli.py", line 430, in main
+    run()
+  File "/home/keyi/.vscode/extensions/ms-python.debugpy-2024.10.0-linux-x64/bundled/libs/debugpy/adapter/../../debugpy/launcher/../../debugpy/../debugpy/server/cli.py", line 284, in run_file
+    runpy.run_path(target, run_name="__main__")
+  File "/home/keyi/.vscode/extensions/ms-python.debugpy-2024.10.0-linux-x64/bundled/libs/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_runpy.py", line 321, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/home/keyi/.vscode/extensions/ms-python.debugpy-2024.10.0-linux-x64/bundled/libs/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_runpy.py", line 135, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/home/keyi/.vscode/extensions/ms-python.debugpy-2024.10.0-linux-x64/bundled/libs/debugpy/_vendored/pydevd/_pydevd_bundle/pydevd_runpy.py", line 124, in _run_code
+    exec(code, run_globals)
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/main/train_imitate_dexmv.py", line 128, in <module>
+    model.learn(
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/ppo/ppo.py", line 332, in learn
+    return super().learn(
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/common/on_policy_algorithm.py", line 300, in learn
+    continue_training = self.collect_rollouts(self.env, callback, self.rollout_buffer, n_rollout_steps=self.n_steps)
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/common/on_policy_algorithm.py", line 201, in collect_rollouts
+    if not callback.on_step():
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/common/callbacks.py", line 114, in on_step
+    return self._on_step()
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/common/callbacks.py", line 337, in _on_step
+    return self.callback(self.locals, self.globals)
+TypeError: 'WandbCallback' object is not callable

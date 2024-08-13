@@ -1,0 +1,425 @@
+diff --git a/stable_baselines3/common/callbacks.py b/stable_baselines3/common/callbacks.py
+index c784186..6cb8747 100644
+--- a/stable_baselines3/common/callbacks.py
++++ b/stable_baselines3/common/callbacks.py
+@@ -26,20 +26,19 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecEnv, sync_envs_norm
+ if TYPE_CHECKING:
+     from stable_baselines3.common import base_class
+ 
+-
+ class BaseCallback(ABC):
+     """
+     Base class for callback.
+ 
+-    :param verbose: Verbosity level: 0 for no output, 1 for info messages, 2 for debug messages
++    :param verbose:
+     """
+ 
+-    # The RL model
+-    # Type hint as string to avoid circular import
+-    model: "base_class.BaseAlgorithm"
+-
+     def __init__(self, verbose: int = 0):
+         super().__init__()
++        # The RL model
++        self.model = None  # type: Optional[base_class.BaseAlgorithm]
++        # An alias for self.model.get_env(), the environment used for training
++        self.training_env = None  # type: Union[gym.Env, VecEnv, None]
+         # Number of time the callback was called
+         self.n_calls = 0  # type: int
+         # n_envs * n times env.step() was called
+@@ -47,22 +46,11 @@ class BaseCallback(ABC):
+         self.verbose = verbose
+         self.locals: Dict[str, Any] = {}
+         self.globals: Dict[str, Any] = {}
++        self.logger = None
+         # Sometimes, for event callback, it is useful
+         # to have access to the parent object
+         self.parent = None  # type: Optional[BaseCallback]
+ 
+-    @property
+-    def training_env(self) -> VecEnv:
+-        training_env = self.model.get_env()
+-        assert (
+-            training_env is not None
+-        ), "`model.get_env()` returned None, you must initialize the model with an environment to use callbacks"
+-        return training_env
+-
+-    @property
+-    def logger(self) -> Logger:
+-        return self.model.logger
+-
+     # Type hint as string to avoid circular import
+     def init_callback(self, model: "base_class.BaseAlgorithm") -> None:
+         """
+@@ -70,6 +58,8 @@ class BaseCallback(ABC):
+         RL model and the training environment for convenience.
+         """
+         self.model = model
++        self.training_env = model.get_env()
++        self.logger = model.logger
+         self._init_callback()
+ 
+     def _init_callback(self) -> None:
+@@ -79,8 +69,6 @@ class BaseCallback(ABC):
+         # Those are reference and will be updated automatically
+         self.locals = locals_
+         self.globals = globals_
+-        # Update num_timesteps in case training was done before
+-        self.num_timesteps = self.model.num_timesteps
+         self._on_training_start()
+ 
+     def _on_training_start(self) -> None:
+@@ -109,6 +97,7 @@ class BaseCallback(ABC):
+         :return: If the callback returns False, training is aborted early.
+         """
+         self.n_calls += 1
++        # timesteps start at zero
+         self.num_timesteps = self.model.num_timesteps
+ 
+         return self._on_step()
+@@ -141,6 +130,121 @@ class BaseCallback(ABC):
+         :param locals_: the local variables during rollout collection
+         """
+         pass
++    
++# class BaseCallback(ABC):
++#     """
++#     Base class for callback.
++
++#     :param verbose: Verbosity level: 0 for no output, 1 for info messages, 2 for debug messages
++#     """
++
++#     # The RL model
++#     # Type hint as string to avoid circular import
++#     # model: "base_class.BaseAlgorithm"
++
++#     def __init__(self, verbose: int = 0):
++#         super().__init__()
++#         # Number of time the callback was called
++#         self.n_calls = 0  # type: int
++#         # n_envs * n times env.step() was called
++#         self.num_timesteps = 0  # type: int
++#         self.verbose = verbose
++#         self.locals: Dict[str, Any] = {}
++#         self.globals: Dict[str, Any] = {}
++#         # Sometimes, for event callback, it is useful
++#         # to have access to the parent object
++#         self.parent = None  # type: Optional[BaseCallback]
++
++#     @property
++#     def training_env(self) -> VecEnv:
++#         training_env = self.model.get_env()
++#         assert (
++#             training_env is not None
++#         ), "`model.get_env()` returned None, you must initialize the model with an environment to use callbacks"
++#         return training_env
++
++#     @property
++#     def logger(self) -> Logger:
++#         return self.model.logger
++
++#     # Type hint as string to avoid circular import
++#     def init_callback(self, model: "base_class.BaseAlgorithm") -> None:
++#         """
++#         Initialize the callback by saving references to the
++#         RL model and the training environment for convenience.
++#         """
++#         self.model = model
++#         self._init_callback()
++
++#     def _init_callback(self) -> None:
++#         pass
++
++#     def on_training_start(self, locals_: Dict[str, Any], globals_: Dict[str, Any]) -> None:
++#         # Those are reference and will be updated automatically
++#         self.locals = locals_
++#         self.globals = globals_
++#         # Update num_timesteps in case training was done before
++#         self.num_timesteps = self.model.num_timesteps
++#         self._on_training_start()
++
++#     def _on_training_start(self) -> None:
++#         pass
++
++#     def on_rollout_start(self) -> None:
++#         self._on_rollout_start()
++
++#     def _on_rollout_start(self) -> None:
++#         pass
++
++#     @abstractmethod
++#     def _on_step(self) -> bool:
++#         """
++#         :return: If the callback returns False, training is aborted early.
++#         """
++#         return True
++
++#     def on_step(self) -> bool:
++#         """
++#         This method will be called by the model after each call to ``env.step()``.
++
++#         For child callback (of an ``EventCallback``), this will be called
++#         when the event is triggered.
++
++#         :return: If the callback returns False, training is aborted early.
++#         """
++#         self.n_calls += 1
++#         self.num_timesteps = self.model.num_timesteps
++
++#         return self._on_step()
++
++#     def on_training_end(self) -> None:
++#         self._on_training_end()
++
++#     def _on_training_end(self) -> None:
++#         pass
++
++#     def on_rollout_end(self) -> None:
++#         self._on_rollout_end()
++
++#     def _on_rollout_end(self) -> None:
++#         pass
++
++#     def update_locals(self, locals_: Dict[str, Any]) -> None:
++#         """
++#         Update the references to the local variables.
++
++#         :param locals_: the local variables during rollout collection
++#         """
++#         self.locals.update(locals_)
++#         self.update_child_locals(locals_)
++
++#     def update_child_locals(self, locals_: Dict[str, Any]) -> None:
++#         """
++#         Update the references to the local variables on sub callbacks.
++
++#         :param locals_: the local variables during rollout collection
++#         """
++#         pass
+ 
+ 
+ class EventCallback(BaseCallback):
+diff --git a/stable_baselines3/common/distributions.py b/stable_baselines3/common/distributions.py
+index 132a353..fcbaa71 100644
+--- a/stable_baselines3/common/distributions.py
++++ b/stable_baselines3/common/distributions.py
+@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional, Tuple, TypeVar, Union
+ 
+ import numpy as np
+ import torch as th
+-from gymnasium import spaces
++from gym import spaces
+ from torch import nn
+ from torch.distributions import Bernoulli, Categorical, Normal
+ 
+diff --git a/stable_baselines3/common/on_policy_algorithm.py b/stable_baselines3/common/on_policy_algorithm.py
+index 2624537..fdca5ec 100644
+--- a/stable_baselines3/common/on_policy_algorithm.py
++++ b/stable_baselines3/common/on_policy_algorithm.py
+@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional, Tuple, Type, TypeVar, Union
+ 
+ import numpy as np
+ import torch as th
+-from gymnasium import spaces
++from gym import spaces
+ 
+ from stable_baselines3.common.base_class import BaseAlgorithm
+ from stable_baselines3.common.buffers import DictRolloutBuffer, RolloutBuffer
+diff --git a/stable_baselines3/common/preprocessing.py b/stable_baselines3/common/preprocessing.py
+index d0bfbcd..fd8cb76 100644
+--- a/stable_baselines3/common/preprocessing.py
++++ b/stable_baselines3/common/preprocessing.py
+@@ -3,7 +3,7 @@ from typing import Dict, Tuple, Union
+ 
+ import numpy as np
+ import torch as th
+-from gymnasium import spaces
++from gym import spaces
+ from torch.nn import functional as F
+ 
+ 
+diff --git a/stable_baselines3/common/torch_layers.py b/stable_baselines3/common/torch_layers.py
+index 234b915..229f705 100644
+--- a/stable_baselines3/common/torch_layers.py
++++ b/stable_baselines3/common/torch_layers.py
+@@ -4,6 +4,7 @@ import gymnasium as gym
+ import torch as th
+ from gymnasium import spaces
+ from torch import nn
++import sys
+ 
+ from stable_baselines3.common.preprocessing import get_flattened_obs_dim, is_image_space
+ from stable_baselines3.common.type_aliases import TensorDict
+diff --git a/stable_baselines3/common/vec_env/dummy_vec_env.py b/stable_baselines3/common/vec_env/dummy_vec_env.py
+index 15ecfb6..8e8978d 100644
+--- a/stable_baselines3/common/vec_env/dummy_vec_env.py
++++ b/stable_baselines3/common/vec_env/dummy_vec_env.py
+@@ -71,14 +71,20 @@ class DummyVecEnv(VecEnv):
+             self._save_obs(env_idx, obs)
+         return (self._obs_from_buf(), np.copy(self.buf_rews), np.copy(self.buf_dones), deepcopy(self.buf_infos))
+ 
++    # def reset(self) -> VecEnvObs:
++    #     for env_idx in range(self.num_envs):
++    #         maybe_options = {"options": self._options[env_idx]} if self._options[env_idx] else {}
++    #         obs, self.reset_infos[env_idx] = self.envs[env_idx].reset(seed=self._seeds[env_idx], **maybe_options)
++    #         self._save_obs(env_idx, obs)
++    #     # Seeds and options are only used once
++    #     self._reset_seeds()
++    #     self._reset_options()
++    #     return self._obs_from_buf()
++    
+     def reset(self) -> VecEnvObs:
+         for env_idx in range(self.num_envs):
+-            maybe_options = {"options": self._options[env_idx]} if self._options[env_idx] else {}
+-            obs, self.reset_infos[env_idx] = self.envs[env_idx].reset(seed=self._seeds[env_idx], **maybe_options)
++            obs = self.envs[env_idx].reset()
+             self._save_obs(env_idx, obs)
+-        # Seeds and options are only used once
+-        self._reset_seeds()
+-        self._reset_options()
+         return self._obs_from_buf()
+ 
+     def close(self) -> None:
+diff --git a/stable_baselines3/common/vec_env/subproc_vec_env.py b/stable_baselines3/common/vec_env/subproc_vec_env.py
+index c598c73..96dc4fb 100644
+--- a/stable_baselines3/common/vec_env/subproc_vec_env.py
++++ b/stable_baselines3/common/vec_env/subproc_vec_env.py
+@@ -26,25 +26,33 @@ def _worker(
+     from stable_baselines3.common.env_util import is_wrapped
+ 
+     parent_remote.close()
+-    env = _patch_env(env_fn_wrapper.var())
++    # env = _patch_env(env_fn_wrapper.var())
++    env = env_fn_wrapper.var()
+     reset_info: Optional[Dict[str, Any]] = {}
+     while True:
+         try:
+             cmd, data = remote.recv()
+             if cmd == "step":
+-                observation, reward, terminated, truncated, info = env.step(data)
++                observation, reward, done, info = env.step(data)
+                 # convert to SB3 VecEnv api
+-                done = terminated or truncated
+-                info["TimeLimit.truncated"] = truncated and not terminated
+                 if done:
+                     # save final observation where user can get it, then reset
+                     info["terminal_observation"] = observation
+-                    observation, reset_info = env.reset()
+-                remote.send((observation, reward, done, info, reset_info))
++                    observation = env.reset()
++                remote.send((observation, reward, done, info))
++                # done = terminated or truncated
++                # info["TimeLimit.truncated"] = truncated and not terminated
++                # if done:
++                #     # save final observation where user can get it, then reset
++                #     info["terminal_observation"] = observation
++                #     observation, reset_info = env.reset()
++                # remote.send((observation, reward, done, info, reset_info))
+             elif cmd == "reset":
+-                maybe_options = {"options": data[1]} if data[1] else {}
+-                observation, reset_info = env.reset(seed=data[0], **maybe_options)
+-                remote.send((observation, reset_info))
++                # maybe_options = {"options": data[1]} if data[1] else {}
++                # observation, reset_info = env.reset(seed=data[0], **maybe_options)
++                # remote.send((observation, reset_info))
++                observation = env.reset()
++                remote.send(observation)
+             elif cmd == "render":
+                 remote.send(env.render())
+             elif cmd == "close":
+@@ -128,17 +136,19 @@ class SubprocVecEnv(VecEnv):
+     def step_wait(self) -> VecEnvStepReturn:
+         results = [remote.recv() for remote in self.remotes]
+         self.waiting = False
+-        obs, rews, dones, infos, self.reset_infos = zip(*results)  # type: ignore[assignment]
++        obs, rews, dones, infos= zip(*results)  # type: ignore[assignment]
+         return _flatten_obs(obs, self.observation_space), np.stack(rews), np.stack(dones), infos  # type: ignore[return-value]
+ 
+     def reset(self) -> VecEnvObs:
+         for env_idx, remote in enumerate(self.remotes):
+-            remote.send(("reset", (self._seeds[env_idx], self._options[env_idx])))
+-        results = [remote.recv() for remote in self.remotes]
+-        obs, self.reset_infos = zip(*results)  # type: ignore[assignment]
++            remote.send(("reset", None))
++            # remote.send(("reset", (self._seeds[env_idx], self._options[env_idx])))
++        obs = [remote.recv() for remote in self.remotes]
++        # results = [remote.recv() for remote in self.remotes]
++        # obs, self.reset_infos = zip(*results)  # type: ignore[assignment]
+         # Seeds and options are only used once
+-        self._reset_seeds()
+-        self._reset_options()
++        # self._reset_seeds()
++        # self._reset_options()
+         return _flatten_obs(obs, self.observation_space)
+ 
+     def close(self) -> None:
+diff --git a/stable_baselines3/common/vec_env/vec_video_recorder.py b/stable_baselines3/common/vec_env/vec_video_recorder.py
+index 52faebd..e49f425 100644
+--- a/stable_baselines3/common/vec_env/vec_video_recorder.py
++++ b/stable_baselines3/common/vec_env/vec_video_recorder.py
+@@ -1,7 +1,8 @@
+ import os
+ from typing import Callable
+ 
+-from gymnasium.wrappers.monitoring import video_recorder
++# from gymnasium.wrappers.monitoring import video_recorder
++from gym.wrappers.monitoring import video_recorder
+ 
+ from stable_baselines3.common.vec_env.base_vec_env import VecEnv, VecEnvObs, VecEnvStepReturn, VecEnvWrapper
+ from stable_baselines3.common.vec_env.dummy_vec_env import DummyVecEnv
+diff --git a/stable_baselines3/ppo/ppo.py b/stable_baselines3/ppo/ppo.py
+index 52ee2eb..33b0fc6 100644
+--- a/stable_baselines3/ppo/ppo.py
++++ b/stable_baselines3/ppo/ppo.py
+@@ -3,7 +3,7 @@ from typing import Any, ClassVar, Dict, Optional, Type, TypeVar, Union
+ 
+ import numpy as np
+ import torch as th
+-from gymnasium import spaces
++from gym import spaces
+ from torch.nn import functional as F
+ 
+ from stable_baselines3.common.buffers import RolloutBuffer
+@@ -14,6 +14,22 @@ from stable_baselines3.common.utils import explained_variance, get_schedule_fn
+ 
+ SelfPPO = TypeVar("SelfPPO", bound="PPO")
+ 
++class AdaptiveScheduler:
++    def __init__(self, kl_threshold, min_lr, max_lr, init_lr):
++        super().__init__()
++        self.min_lr = min_lr
++        self.max_lr = max_lr
++        self.kl_threshold = kl_threshold
++        self.current_lr = init_lr
++
++    def update(self, kl_dist):
++        lr = self.current_lr
++        if kl_dist > (2.0 * self.kl_threshold):
++            lr = max(self.current_lr / 1.5, self.min_lr)
++        if kl_dist < (0.5 * self.kl_threshold):
++            lr = min(self.current_lr * 1.5, self.max_lr)
++        self.current_lr = lr
++        return lr
+ 
+ class PPO(OnPolicyAlgorithm):
+     """
+@@ -105,6 +121,9 @@ class PPO(OnPolicyAlgorithm):
+         seed: Optional[int] = None,
+         device: Union[th.device, str] = "auto",
+         _init_setup_model: bool = True,
++        adaptive_kl: float = 0.02,  
++        min_lr=1e-4,
++        max_lr=1e-3,
+     ):
+         super().__init__(
+             policy,
+@@ -166,6 +185,8 @@ class PPO(OnPolicyAlgorithm):
+         self.clip_range_vf = clip_range_vf
+         self.normalize_advantage = normalize_advantage
+         self.target_kl = target_kl
++        self.kl_scheduler = AdaptiveScheduler(kl_threshold=adaptive_kl, min_lr=min_lr, max_lr=max_lr,
++                                              init_lr=learning_rate)
+ 
+         if _init_setup_model:
+             self._setup_model()

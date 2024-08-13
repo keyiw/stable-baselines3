@@ -14,7 +14,7 @@ import torch as th
 from gymnasium import spaces
 
 from stable_baselines3.common import utils
-from stable_baselines3.common.callbacks import BaseCallback, CallbackList, ConvertCallback, ProgressBarCallback
+from assistive_stable_baselines3.stable_baselines3.common.callbacks import BaseCallback, CallbackList, ConvertCallback, ProgressBarCallback
 from stable_baselines3.common.env_util import is_wrapped
 from stable_baselines3.common.logger import Logger
 from stable_baselines3.common.monitor import Monitor

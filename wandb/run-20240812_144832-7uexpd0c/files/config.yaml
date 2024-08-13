@@ -1,0 +1,217 @@
+wandb_version: 1
+
+n_env_horizon:
+  desc: null
+  value: 100
+update_iteration:
+  desc: null
+  value: 5000
+total_step:
+  desc: null
+  value: 100000000
+randomness:
+  desc: null
+  value: 1.0
+_wandb:
+  desc: null
+  value:
+    code_path: code/main/train_imitate_dexmv.py
+    python_version: 3.8.19
+    cli_version: 0.17.5
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1723495712
+    t:
+      1:
+      - 1
+      - 55
+      2:
+      - 1
+      - 55
+      3:
+      - 13
+      - 15
+      - 16
+      - 22
+      - 23
+      4: 3.8.19
+      5: 0.17.5
+      8:
+      - 5
+      13: linux-x86_64
+algo:
+  desc: null
+  value: PPO
+policy_class:
+  desc: null
+  value: <class 'stable_baselines3.common.policies.ActorCriticPolicy'>
+device:
+  desc: null
+  value: cuda
+verbose:
+  desc: null
+  value: 1
+policy_kwargs:
+  desc: null
+  value: '{''activation_fn'': <class ''torch.nn.modules.activation.ReLU''>}'
+num_timesteps:
+  desc: null
+  value: 0
+_total_timesteps:
+  desc: null
+  value: 100000000
+_num_timesteps_at_start:
+  desc: null
+  value: 0
+seed:
+  desc: null
+  value: 100
+action_noise:
+  desc: null
+  value: None
+start_time:
+  desc: null
+  value: 1723495722777384396
+learning_rate:
+  desc: null
+  value: 0.0003
+tensorboard_log:
+  desc: null
+  value: None
+_last_obs:
+  desc: null
+  value: "[[-0.03141593  0.13439035  0.03141593  0.23911011  3.14159274  1.46433127\n\
+    \  -0.00349066  0.          0.          0.          0.          0.\n   0.    \
+    \      0.          0.          0.          0.          0.\n   0.          0. \
+    \         0.          0.          0.          0.\n   0.          0.          0.\
+    \          0.          0.          0.\n   0.          0.          0.         \
+    \ 0.         -0.03141593  0.13439035\n   0.03141593  0.23911011  3.14159274  1.46433127\
+    \ -0.00349066  0.\n   0.          0.          0.          0.          0.     \
+    \     0.\n   0.          0.          0.          0.          0.          0.\n\
+    \   0.          0.          0.          0.          0.          0.\n   0.    \
+    \      0.          0.          0.          0.          0.\n   0.          0. \
+    \        -0.10991839  0.04565291  0.90100002  0.64621091\n  -0.2913968  -0.64285499\
+    \  0.29023626  0.         -0.39737409 -0.11478338\n  -0.20011115 -0.47696748 -0.01985161\
+    \ -0.22923255 -0.5015558  -0.01648924\n  -0.23160768 -0.52681428 -0.01899637 -0.2304827\
+    \  -0.54701954 -0.02501573\n  -0.22719741  0.17671067 -0.11472134 -0.20027578\
+    \  0.2563985  -0.0198333\n  -0.22928095  0.28099209 -0.01648444 -0.23162043  0.30624753\
+    \ -0.01900546\n  -0.23045862  0.32644469 -0.0250359  -0.227144    0.         \
+    \ 0.\n   0.          0.          0.          0.          0.          0.\n   0.\
+    \          0.        ]]"
+_last_episode_starts:
+  desc: null
+  value: '[ True]'
+_last_original_obs:
+  desc: null
+  value: None
+_episode_num:
+  desc: null
+  value: 0
+use_sde:
+  desc: null
+  value: 'False'
+sde_sample_freq:
+  desc: null
+  value: -1
+_current_progress_remaining:
+  desc: null
+  value: 1.0
+_stats_window_size:
+  desc: null
+  value: 100
+ep_info_buffer:
+  desc: null
+  value: deque([], maxlen=100)
+ep_success_buffer:
+  desc: null
+  value: deque([], maxlen=100)
+_n_updates:
+  desc: null
+  value: 0
+_custom_logger:
+  desc: null
+  value: 'False'
+env:
+  desc: null
+  value: <stable_baselines3.common.vec_env.subproc_vec_env.SubprocVecEnv object at
+    0x7cb821907e20>
+_vec_normalize_env:
+  desc: null
+  value: None
+observation_space:
+  desc: null
+  value: Box(-inf, inf, (116,), float32)
+action_space:
+  desc: null
+  value: Box(-1.0, 1.0, (32,), float32)
+n_envs:
+  desc: null
+  value: 1
+n_steps:
+  desc: null
+  value: 20000
+gamma:
+  desc: null
+  value: 0.99
+gae_lambda:
+  desc: null
+  value: 0.95
+ent_coef:
+  desc: null
+  value: 0.0
+vf_coef:
+  desc: null
+  value: 0.5
+max_grad_norm:
+  desc: null
+  value: 0.5
+rollout_buffer_class:
+  desc: null
+  value: <class 'stable_baselines3.common.buffers.RolloutBuffer'>
+rollout_buffer_kwargs:
+  desc: null
+  value: '{}'
+batch_size:
+  desc: null
+  value: 2000
+n_epochs:
+  desc: null
+  value: 10
+clip_range:
+  desc: null
+  value: <function get_schedule_fn.<locals>.<lambda> at 0x7cb802893670>
+clip_range_vf:
+  desc: null
+  value: None
+normalize_advantage:
+  desc: null
+  value: 'True'
+target_kl:
+  desc: null
+  value: 0.2
+kl_scheduler:
+  desc: null
+  value: <stable_baselines3.ppo.ppo.AdaptiveScheduler object at 0x7cb8683b65b0>
+lr_schedule:
+  desc: null
+  value: <function get_schedule_fn.<locals>.<lambda> at 0x7cb868253af0>
+rollout_buffer:
+  desc: null
+  value: <stable_baselines3.common.buffers.RolloutBuffer object at 0x7cb86828b760>
+policy:
+  desc: null
+  value: "ActorCriticPolicy(\n  (features_extractor): FlattenExtractor(\n    (flatten):\
+    \ Flatten(start_dim=1, end_dim=-1)\n  )\n  (pi_features_extractor): FlattenExtractor(\n\
+    \    (flatten): Flatten(start_dim=1, end_dim=-1)\n  )\n  (vf_features_extractor):\
+    \ FlattenExtractor(\n    (flatten): Flatten(start_dim=1, end_dim=-1)\n  )\n  (mlp_extractor):\
+    \ MlpExtractor(\n    (policy_net): Sequential(\n      (0): Linear(in_features=116,\
+    \ out_features=64, bias=True)\n      (1): ReLU()\n      (2): Linear(in_features=64,\
+    \ out_features=64, bias=True)\n      (3): ReLU()\n    )\n    (value_net): Sequential(\n\
+    \      (0): Linear(in_features=116, out_features=64, bias=True)\n      (1): ReLU()\n\
+    \      (2): Linear(in_features=64, out_features=64, bias=True)\n      (3): ReLU()\n\
+    \    )\n  )\n  (action_net): Linear(in_features=64, out_features=32, bias=True)\n\
+    \  (value_net): Linear(in_features=64, out_features=1, bias=True)\n)"
+_logger:
+  desc: null
+  value: <stable_baselines3.common.logger.Logger object at 0x7cb80288db80>

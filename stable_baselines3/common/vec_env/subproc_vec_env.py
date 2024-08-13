@@ -26,25 +26,33 @@ def _worker(
     from stable_baselines3.common.env_util import is_wrapped
 
     parent_remote.close()
-    env = _patch_env(env_fn_wrapper.var())
+    # env = _patch_env(env_fn_wrapper.var())
+    env = env_fn_wrapper.var()
     reset_info: Optional[Dict[str, Any]] = {}
     while True:
         try:
             cmd, data = remote.recv()
             if cmd == "step":
-                observation, reward, terminated, truncated, info = env.step(data)
+                observation, reward, done, info = env.step(data)
                 # convert to SB3 VecEnv api
-                done = terminated or truncated
-                info["TimeLimit.truncated"] = truncated and not terminated
                 if done:
                     # save final observation where user can get it, then reset
                     info["terminal_observation"] = observation
-                    observation, reset_info = env.reset()
-                remote.send((observation, reward, done, info, reset_info))
+                    observation = env.reset()
+                remote.send((observation, reward, done, info))
+                # done = terminated or truncated
+                # info["TimeLimit.truncated"] = truncated and not terminated
+                # if done:
+                #     # save final observation where user can get it, then reset
+                #     info["terminal_observation"] = observation
+                #     observation, reset_info = env.reset()
+                # remote.send((observation, reward, done, info, reset_info))
             elif cmd == "reset":
-                maybe_options = {"options": data[1]} if data[1] else {}
-                observation, reset_info = env.reset(seed=data[0], **maybe_options)
-                remote.send((observation, reset_info))
+                # maybe_options = {"options": data[1]} if data[1] else {}
+                # observation, reset_info = env.reset(seed=data[0], **maybe_options)
+                # remote.send((observation, reset_info))
+                observation = env.reset()
+                remote.send(observation)
             elif cmd == "render":
                 remote.send(env.render())
             elif cmd == "close":
@@ -128,17 +136,19 @@ class SubprocVecEnv(VecEnv):
     def step_wait(self) -> VecEnvStepReturn:
         results = [remote.recv() for remote in self.remotes]
         self.waiting = False
-        obs, rews, dones, infos, self.reset_infos = zip(*results)  # type: ignore[assignment]
+        obs, rews, dones, infos= zip(*results)  # type: ignore[assignment]
         return _flatten_obs(obs, self.observation_space), np.stack(rews), np.stack(dones), infos  # type: ignore[return-value]
 
     def reset(self) -> VecEnvObs:
         for env_idx, remote in enumerate(self.remotes):
-            remote.send(("reset", (self._seeds[env_idx], self._options[env_idx])))
-        results = [remote.recv() for remote in self.remotes]
-        obs, self.reset_infos = zip(*results)  # type: ignore[assignment]
+            remote.send(("reset", None))
+            # remote.send(("reset", (self._seeds[env_idx], self._options[env_idx])))
+        obs = [remote.recv() for remote in self.remotes]
+        # results = [remote.recv() for remote in self.remotes]
+        # obs, self.reset_infos = zip(*results)  # type: ignore[assignment]
         # Seeds and options are only used once
-        self._reset_seeds()
-        self._reset_options()
+        # self._reset_seeds()
+        # self._reset_options()
         return _flatten_obs(obs, self.observation_space)
 
     def close(self) -> None:

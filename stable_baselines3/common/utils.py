@@ -11,7 +11,7 @@ import cloudpickle
 import gymnasium as gym
 import numpy as np
 import torch as th
-from gymnasium import spaces
+from gym import spaces
 
 import stable_baselines3 as sb3
 
