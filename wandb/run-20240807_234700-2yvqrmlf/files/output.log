@@ -1,4 +1,0 @@
-
-Backend TkAgg is interactive backend. Turning interactive mode on.
-Box([], [], (0,), float32) Box(-1.0, 1.0, (17,), float32)
-/home/keyi/anaconda3/envs/artigrasp/lib/python3.8/site-packages/gym/spaces/box.py:127: UserWarning: [33mWARN: Box bound precision lowered by casting to float32

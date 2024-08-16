@@ -1,0 +1,99 @@
+diff --git a/main/train_imitate_arctic.py b/main/train_imitate_arctic.py
+index d579cd8..ced4650 100644
+--- a/main/train_imitate_arctic.py
++++ b/main/train_imitate_arctic.py
+@@ -16,6 +16,7 @@ from stable_baselines3.common.vec_env.subproc_vec_env import SubprocVecEnv
+ from stable_baselines3.ppo import PPO
+ from assistive_teleop.envs.rl_env.assistive_teleop_bimanual_env import AssistiveTeleopBimanualEnv
+ from assistive_teleop.envs.real_world import task_setting
++import sapien
+ 
+ from datetime import datetime
+ 
+@@ -53,7 +54,8 @@ def create_env(use_visual_obs, use_gui=False, is_eval=False, obj_scale=1.0, obj_
+         raise NotImplementedError
+     
+     if is_eval:
+-        env.setup_camera_from_config(task_setting.CAMERA_CONFIG["viz_only"])
++        # env.setup_camera_from_config(task_setting.CAMERA_CONFIG["viz_only"])
++        env.create_camera_record_only(sapien.Pose([0.0539504, 0.554102, 1.2969], [0.40844, 0.0136909, 0.00612755, -0.912662]))
+         add_default_scene_light(env.scene, env.renderer)
+     
+     return env
+@@ -62,7 +64,7 @@ def create_env(use_visual_obs, use_gui=False, is_eval=False, obj_scale=1.0, obj_
+ if __name__ == '__main__':
+     parser = argparse.ArgumentParser()
+     parser.add_argument('--n', type=int, default=100)
+-    parser.add_argument('--workers', type=int, default=50)
++    parser.add_argument('--workers', type=int, default=1)
+     parser.add_argument('--lr', type=float, default=3e-4)
+     parser.add_argument('--ep', type=int, default=20)
+     parser.add_argument('--bs', type=int, default=2000)
+@@ -143,7 +145,7 @@ if __name__ == '__main__':
+             model_save_path=str(result_path / "model"),
+             eval_env_fn=create_eval_env_fn,
+             eval_freq=100,
+-            eval_cam_names=["relocate_viz"],
++            eval_cam_names=["record"],
+         ),
+     )
+     wandb_run.finish()
+\ No newline at end of file
+diff --git a/results/box-0-1,0.05,0.01/model/model_0.zip b/results/box-0-1,0.05,0.01/model/model_0.zip
+index 6e48884..ace177a 100644
+Binary files a/results/box-0-1,0.05,0.01/model/model_0.zip and b/results/box-0-1,0.05,0.01/model/model_0.zip differ
+diff --git a/results/box-0-1,0.05,0.01/model/model_100.zip b/results/box-0-1,0.05,0.01/model/model_100.zip
+index 4ac07d8..8dd0904 100644
+Binary files a/results/box-0-1,0.05,0.01/model/model_100.zip and b/results/box-0-1,0.05,0.01/model/model_100.zip differ
+diff --git a/results/box-0-1,0.05,0.01/model/model_150.zip b/results/box-0-1,0.05,0.01/model/model_150.zip
+index d47ca1c..11939e3 100644
+Binary files a/results/box-0-1,0.05,0.01/model/model_150.zip and b/results/box-0-1,0.05,0.01/model/model_150.zip differ
+diff --git a/results/box-0-1,0.05,0.01/model/model_200.zip b/results/box-0-1,0.05,0.01/model/model_200.zip
+index 8555f84..6ed7e30 100644
+Binary files a/results/box-0-1,0.05,0.01/model/model_200.zip and b/results/box-0-1,0.05,0.01/model/model_200.zip differ
+diff --git a/results/box-0-1,0.05,0.01/model/model_250.zip b/results/box-0-1,0.05,0.01/model/model_250.zip
+index a8e7ffd..cb6aad0 100644
+Binary files a/results/box-0-1,0.05,0.01/model/model_250.zip and b/results/box-0-1,0.05,0.01/model/model_250.zip differ
+diff --git a/results/box-0-1,0.05,0.01/model/model_50.zip b/results/box-0-1,0.05,0.01/model/model_50.zip
+index 2716a37..5711980 100644
+Binary files a/results/box-0-1,0.05,0.01/model/model_50.zip and b/results/box-0-1,0.05,0.01/model/model_50.zip differ
+diff --git a/stable_baselines3/common/buffers.py b/stable_baselines3/common/buffers.py
+index b2fc5a7..8483bfd 100644
+--- a/stable_baselines3/common/buffers.py
++++ b/stable_baselines3/common/buffers.py
+@@ -469,7 +469,7 @@ class RolloutBuffer(BaseBuffer):
+ 
+         self.observations[self.pos] = np.array(obs)
+         self.actions[self.pos] = np.array(action)
+-        self.rewards[self.pos] = np.array(reward)
++        self.rewards[self.pos] = np.array(reward[0])
+         self.episode_starts[self.pos] = np.array(episode_start)
+         self.values[self.pos] = value.clone().cpu().numpy().flatten()
+         self.log_probs[self.pos] = log_prob.clone().cpu().numpy()
+diff --git a/wandb/debug-internal.log b/wandb/debug-internal.log
+index a05a84b..2cbe2f3 120000
+--- a/wandb/debug-internal.log
++++ b/wandb/debug-internal.log
+@@ -1 +1 @@
+-run-20240812_232429-3zk12qfs/logs/debug-internal.log
+\ No newline at end of file
++run-20240815_123431-x3pkxbjd/logs/debug-internal.log
+\ No newline at end of file
+diff --git a/wandb/debug.log b/wandb/debug.log
+index 24c7b1b..200de97 120000
+--- a/wandb/debug.log
++++ b/wandb/debug.log
+@@ -1 +1 @@
+-run-20240812_232429-3zk12qfs/logs/debug.log
+\ No newline at end of file
++run-20240815_123431-x3pkxbjd/logs/debug.log
+\ No newline at end of file
+diff --git a/wandb/latest-run b/wandb/latest-run
+index f82ed8e..ef82809 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240812_232429-3zk12qfs
+\ No newline at end of file
++run-20240815_123431-x3pkxbjd
+\ No newline at end of file

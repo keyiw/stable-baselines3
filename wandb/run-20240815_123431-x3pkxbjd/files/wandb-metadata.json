@@ -1,0 +1,128 @@
+{
+    "os": "Linux-6.8.0-40-generic-x86_64-with-glibc2.17",
+    "python": "3.8.19",
+    "heartbeatAt": "2024-08-15T18:34:32.546246",
+    "startedAt": "2024-08-15T18:34:31.870862",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/main/train_imitate_arctic.py",
+    "codePathLocal": "main/train_imitate_arctic.py",
+    "codePath": "main/train_imitate_arctic.py",
+    "git": {
+        "remote": "https://github.com/keyiw/stable-baselines3.git",
+        "commit": "732af2ff6abc12c2a0493715293346d3b5bee041"
+    },
+    "email": "keyiwang2000@gmail.com",
+    "root": "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3",
+    "host": "keyi-Legion-Y7000P-IRH8",
+    "username": "keyi",
+    "executable": "/home/keyi/anaconda3/envs/artigrasp/bin/python",
+    "cpu_count": 10,
+    "cpu_count_logical": 16,
+    "cpu_freq": {
+        "current": 2193.062125,
+        "min": 400.0,
+        "max": 4475.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1334.582,
+            "min": 400.0,
+            "max": 4700.0
+        },
+        {
+            "current": 1281.153,
+            "min": 400.0,
+            "max": 4700.0
+        },
+        {
+            "current": 3562.922,
+            "min": 400.0,
+            "max": 4700.0
+        },
+        {
+            "current": 3520.433,
+            "min": 400.0,
+            "max": 4700.0
+        },
+        {
+            "current": 3799.961,
+            "min": 400.0,
+            "max": 4900.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 4900.0
+        },
+        {
+            "current": 3800.0,
+            "min": 400.0,
+            "max": 4900.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 4900.0
+        },
+        {
+            "current": 3800.0,
+            "min": 400.0,
+            "max": 4700.0
+        },
+        {
+            "current": 3809.359,
+            "min": 400.0,
+            "max": 4700.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 4700.0
+        },
+        {
+            "current": 3687.16,
+            "min": 400.0,
+            "max": 4700.0
+        },
+        {
+            "current": 1224.726,
+            "min": 400.0,
+            "max": 3600.0
+        },
+        {
+            "current": 1169.662,
+            "min": 400.0,
+            "max": 3600.0
+        },
+        {
+            "current": 548.743,
+            "min": 400.0,
+            "max": 3600.0
+        },
+        {
+            "current": 2405.335,
+            "min": 400.0,
+            "max": 3600.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 146.5873565673828,
+            "used": 136.73395538330078
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+            "memory_total": 8585740288
+        }
+    ],
+    "memory": {
+        "total": 15.345840454101562
+    }
+}

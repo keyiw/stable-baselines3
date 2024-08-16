@@ -1,0 +1,269 @@
+wandb_version: 1
+
+n_env_horizon:
+  desc: null
+  value: 100
+update_iteration:
+  desc: null
+  value: 2000
+total_step:
+  desc: null
+  value: 40000000
+randomness:
+  desc: null
+  value: 1.0
+_wandb:
+  desc: null
+  value:
+    code_path: code/main/train_imitate_arctic.py
+    python_version: 3.8.19
+    cli_version: 0.17.5
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1723747217
+    t:
+      1:
+      - 1
+      - 55
+      2:
+      - 1
+      - 55
+      3:
+      - 13
+      - 15
+      - 16
+      - 22
+      - 23
+      4: 3.8.19
+      5: 0.17.5
+      8:
+      - 5
+      13: linux-x86_64
+algo:
+  desc: null
+  value: PPO
+policy_class:
+  desc: null
+  value: <class 'stable_baselines3.common.policies.ActorCriticPolicy'>
+device:
+  desc: null
+  value: cuda
+verbose:
+  desc: null
+  value: 1
+policy_kwargs:
+  desc: null
+  value: '{''activation_fn'': <class ''torch.nn.modules.activation.ReLU''>}'
+num_timesteps:
+  desc: null
+  value: 0
+_total_timesteps:
+  desc: null
+  value: 40000000
+_num_timesteps_at_start:
+  desc: null
+  value: 0
+seed:
+  desc: null
+  value: 100
+action_noise:
+  desc: null
+  value: None
+start_time:
+  desc: null
+  value: 1723747223401871965
+learning_rate:
+  desc: null
+  value: 0.0003
+tensorboard_log:
+  desc: null
+  value: None
+_last_obs:
+  desc: null
+  value: "[[-0.03141593  0.13439035  0.03141593  0.23911011  3.14159274  1.46433127\n\
+    \  -0.00349066  0.          0.          0.          0.          0.\n   0.    \
+    \      0.          0.          0.          0.          0.\n   0.          0. \
+    \         0.          0.          0.          0.\n   0.          0.          0.\
+    \          0.          0.          0.\n   0.          0.          0.         \
+    \ 0.         -0.03141593  0.13439035\n   0.03141593  0.23911011  3.14159274  1.46433127\
+    \ -0.00349066  0.\n   0.          0.          0.          0.          0.     \
+    \     0.\n   0.          0.          0.          0.          0.          0.\n\
+    \   0.          0.          0.          0.          0.          0.\n   0.    \
+    \      0.          0.          0.          0.          0.\n   0.          0. \
+    \         0.11670742 -0.22641252  1.03398132  0.64621091\n  -0.2913968  -0.64285499\
+    \  0.29023626  0.          0.         -0.17074829\n  -0.38684881 -0.06712985 -0.25034168\
+    \ -0.29191703 -0.09625125 -0.27492997\n  -0.28855467 -0.09862638 -0.30018848 -0.29106182\
+    \ -0.0975014  -0.32039374\n  -0.29708117 -0.09421611  0.40333647 -0.38678676 -0.06729448\
+    \  0.4830243\n  -0.29189873 -0.09629965  0.50761789 -0.28854987 -0.09863913  0.53287333\n\
+    \  -0.29107088 -0.09747732  0.55307049 -0.29710132 -0.0941627   0.\n   0.    \
+    \      0.          0.          0.          0.          0.\n   0.          0. \
+    \         0.        ]\n [-0.03141593  0.13439035  0.03141593  0.23911011  3.14159274\
+    \  1.46433127\n  -0.00349066  0.          0.          0.          0.         \
+    \ 0.\n   0.          0.          0.          0.          0.          0.\n   0.\
+    \          0.          0.          0.          0.          0.\n   0.         \
+    \ 0.          0.          0.          0.          0.\n   0.          0.      \
+    \    0.          0.         -0.03141593  0.13439035\n   0.03141593  0.23911011\
+    \  3.14159274  1.46433127 -0.00349066  0.\n   0.          0.          0.     \
+    \     0.          0.          0.\n   0.          0.          0.          0.  \
+    \        0.          0.\n   0.          0.          0.          0.          0.\
+    \          0.\n   0.          0.          0.          0.          0.         \
+    \ 0.\n   0.          0.          0.11670742 -0.22641252  1.03398132  0.64621091\n\
+    \  -0.2913968  -0.64285499  0.29023626  0.          0.         -0.17074829\n \
+    \ -0.38684881 -0.06712985 -0.25034168 -0.29191703 -0.09625125 -0.27492997\n  -0.28855467\
+    \ -0.09862638 -0.30018848 -0.29106182 -0.0975014  -0.32039374\n  -0.29708117 -0.09421611\
+    \  0.40333647 -0.38678676 -0.06729448  0.4830243\n  -0.29189873 -0.09629965  0.50761789\
+    \ -0.28854987 -0.09863913  0.53287333\n  -0.29107088 -0.09747732  0.55307049 -0.29710132\
+    \ -0.0941627   0.\n   0.          0.          0.          0.          0.     \
+    \     0.\n   0.          0.          0.        ]\n [-0.03141593  0.13439035  0.03141593\
+    \  0.23911011  3.14159274  1.46433127\n  -0.00349066  0.          0.         \
+    \ 0.          0.          0.\n   0.          0.          0.          0.      \
+    \    0.          0.\n   0.          0.          0.          0.          0.   \
+    \       0.\n   0.          0.          0.          0.          0.          0.\n\
+    \   0.          0.          0.          0.         -0.03141593  0.13439035\n \
+    \  0.03141593  0.23911011  3.14159274  1.46433127 -0.00349066  0.\n   0.     \
+    \     0.          0.          0.          0.          0.\n   0.          0.  \
+    \        0.          0.          0.          0.\n   0.          0.          0.\
+    \          0.          0.          0.\n   0.          0.          0.         \
+    \ 0.          0.          0.\n   0.          0.          0.11670742 -0.22641252\
+    \  1.03398132  0.64621091\n  -0.2913968  -0.64285499  0.29023626  0.         \
+    \ 0.         -0.17074829\n  -0.38684881 -0.06712985 -0.25034168 -0.29191703 -0.09625125\
+    \ -0.27492997\n  -0.28855467 -0.09862638 -0.30018848 -0.29106182 -0.0975014  -0.32039374\n\
+    \  -0.29708117 -0.09421611  0.40333647 -0.38678676 -0.06729448  0.4830243\n  -0.29189873\
+    \ -0.09629965  0.50761789 -0.28854987 -0.09863913  0.53287333\n  -0.29107088 -0.09747732\
+    \  0.55307049 -0.29710132 -0.0941627   0.\n   0.          0.          0.     \
+    \     0.          0.          0.\n   0.          0.          0.        ]\n [-0.03141593\
+    \  0.13439035  0.03141593  0.23911011  3.14159274  1.46433127\n  -0.00349066 \
+    \ 0.          0.          0.          0.          0.\n   0.          0.      \
+    \    0.          0.          0.          0.\n   0.          0.          0.   \
+    \       0.          0.          0.\n   0.          0.          0.          0.\
+    \          0.          0.\n   0.          0.          0.          0.         -0.03141593\
+    \  0.13439035\n   0.03141593  0.23911011  3.14159274  1.46433127 -0.00349066 \
+    \ 0.\n   0.          0.          0.          0.          0.          0.\n   0.\
+    \          0.          0.          0.          0.          0.\n   0.         \
+    \ 0.          0.          0.          0.          0.\n   0.          0.      \
+    \    0.          0.          0.          0.\n   0.          0.          0.11670742\
+    \ -0.22641252  1.03398132  0.64621091\n  -0.2913968  -0.64285499  0.29023626 \
+    \ 0.          0.         -0.17074829\n  -0.38684881 -0.06712985 -0.25034168 -0.29191703\
+    \ -0.09625125 -0.27492997\n  -0.28855467 -0.09862638 -0.30018848 -0.29106182 -0.0975014\
+    \  -0.32039374\n  -0.29708117 -0.09421611  0.40333647 -0.38678676 -0.06729448\
+    \  0.4830243\n  -0.29189873 -0.09629965  0.50761789 -0.28854987 -0.09863913  0.53287333\n\
+    \  -0.29107088 -0.09747732  0.55307049 -0.29710132 -0.0941627   0.\n   0.    \
+    \      0.          0.          0.          0.          0.\n   0.          0. \
+    \         0.        ]]"
+_last_episode_starts:
+  desc: null
+  value: '[ True  True  True  True]'
+_last_original_obs:
+  desc: null
+  value: None
+_episode_num:
+  desc: null
+  value: 0
+use_sde:
+  desc: null
+  value: 'False'
+sde_sample_freq:
+  desc: null
+  value: -1
+_current_progress_remaining:
+  desc: null
+  value: 1.0
+_stats_window_size:
+  desc: null
+  value: 100
+ep_info_buffer:
+  desc: null
+  value: deque([], maxlen=100)
+ep_success_buffer:
+  desc: null
+  value: deque([], maxlen=100)
+_n_updates:
+  desc: null
+  value: 0
+_custom_logger:
+  desc: null
+  value: 'False'
+env:
+  desc: null
+  value: <stable_baselines3.common.vec_env.subproc_vec_env.SubprocVecEnv object at
+    0x71105a8ee9a0>
+_vec_normalize_env:
+  desc: null
+  value: None
+observation_space:
+  desc: null
+  value: Box(-inf, inf, (117,), float32)
+action_space:
+  desc: null
+  value: Box(-1.0, 1.0, (32,), float32)
+n_envs:
+  desc: null
+  value: 4
+n_steps:
+  desc: null
+  value: 5000
+gamma:
+  desc: null
+  value: 0.99
+gae_lambda:
+  desc: null
+  value: 0.95
+ent_coef:
+  desc: null
+  value: 0.0
+vf_coef:
+  desc: null
+  value: 0.5
+max_grad_norm:
+  desc: null
+  value: 0.5
+rollout_buffer_class:
+  desc: null
+  value: <class 'stable_baselines3.common.buffers.RolloutBuffer'>
+rollout_buffer_kwargs:
+  desc: null
+  value: '{}'
+batch_size:
+  desc: null
+  value: 2000
+n_epochs:
+  desc: null
+  value: 20
+clip_range:
+  desc: null
+  value: <function get_schedule_fn.<locals>.<lambda> at 0x711054a4e670>
+clip_range_vf:
+  desc: null
+  value: None
+normalize_advantage:
+  desc: null
+  value: 'True'
+target_kl:
+  desc: null
+  value: 0.2
+kl_scheduler:
+  desc: null
+  value: <stable_baselines3.ppo.ppo.AdaptiveScheduler object at 0x7110777ef760>
+lr_schedule:
+  desc: null
+  value: <function get_schedule_fn.<locals>.<lambda> at 0x7110776d0dc0>
+rollout_buffer:
+  desc: null
+  value: <stable_baselines3.common.buffers.RolloutBuffer object at 0x7110777428b0>
+policy:
+  desc: null
+  value: "ActorCriticPolicy(\n  (features_extractor): FlattenExtractor(\n    (flatten):\
+    \ Flatten(start_dim=1, end_dim=-1)\n  )\n  (pi_features_extractor): FlattenExtractor(\n\
+    \    (flatten): Flatten(start_dim=1, end_dim=-1)\n  )\n  (vf_features_extractor):\
+    \ FlattenExtractor(\n    (flatten): Flatten(start_dim=1, end_dim=-1)\n  )\n  (mlp_extractor):\
+    \ MlpExtractor(\n    (policy_net): Sequential(\n      (0): Linear(in_features=117,\
+    \ out_features=64, bias=True)\n      (1): ReLU()\n      (2): Linear(in_features=64,\
+    \ out_features=64, bias=True)\n      (3): ReLU()\n    )\n    (value_net): Sequential(\n\
+    \      (0): Linear(in_features=117, out_features=64, bias=True)\n      (1): ReLU()\n\
+    \      (2): Linear(in_features=64, out_features=64, bias=True)\n      (3): ReLU()\n\
+    \    )\n  )\n  (action_net): Linear(in_features=64, out_features=32, bias=True)\n\
+    \  (value_net): Linear(in_features=64, out_features=1, bias=True)\n)"
+_logger:
+  desc: null
+  value: <stable_baselines3.common.logger.Logger object at 0x711077742fd0>

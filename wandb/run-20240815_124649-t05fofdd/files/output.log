@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "main/train_imitate_arctic.py", line 121, in <module>
+    env = SubprocVecEnv([create_env_fn] * args.workers, "spawn")
+  File "/home/keyi/Documents/VsCodeP/research/retarget/bimanual/assistive_stable_baselines3/stable_baselines3/common/vec_env/subproc_vec_env.py", line 127, in __init__
+    observation_space, action_space = self.remotes[0].recv()
+  File "/home/keyi/anaconda3/envs/artigrasp/lib/python3.8/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+  File "/home/keyi/anaconda3/envs/artigrasp/lib/python3.8/multiprocessing/connection.py", line 414, in _recv_bytes
+    buf = self._recv(4)
+  File "/home/keyi/anaconda3/envs/artigrasp/lib/python3.8/multiprocessing/connection.py", line 379, in _recv
+    chunk = read(handle, remaining)
+ConnectionResetError: [Errno 104] Connection reset by peer

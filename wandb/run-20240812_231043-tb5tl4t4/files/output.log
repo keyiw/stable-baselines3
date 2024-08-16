@@ -1,9 +1,0 @@
-Box(-inf, inf, (117,), float32) Box(-1.0, 1.0, (32,), float32)
-Using cuda device
-------------------------------
-| time/              |       |
-|    fps             | 133   |
-|    iterations      | 1     |
-|    time_elapsed    | 149   |
-|    total_timesteps | 20000 |
-------------------------------
